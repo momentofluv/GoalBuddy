@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GoalBuddy – Feed</title>
+    <link rel="stylesheet" th:href="@{/css/feed.css}" />
+    <link rel="stylesheet" th:href="@{/css/bottom-nav.css}" />
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+<body>
+<div class="app-frame">
+    <main class="feed-screen">
+        <h1 class="feed-title">Feed</h1>
+
+        <!-- Your Progress Today Card -->
+        <section class="progress-card" th:each="feed : ${feeds}" th:if="${feed.isMine}">
+            <div class="progress-header">
+                <span class="progress-icon">📊</span>
+                <span class="progress-title">오늘 나의 목표 달성률</span>
+            </div>
+            <div class="progress-stats">
+                <span class="progress-percent" th:text="${feed.achievementRate} + '%'">0%</span>
+                <span class="progress-text" th:text="|${feed.completedCount} of ${feed.totalCount} completed|">0 of 1 completed</span>
+            </div>
+        </section>
+
+        <!-- Feed Posts -->
+        <div class="feed-posts" th:if="${feeds}">
+            <article class="feed-post" th:each="post : ${feeds}">
+                <div class="post-header">
+                    <div class="post-avatar" th:style="${post.profileImageUrl == null} ? 'background-color: #ffeaea' : ''"></div>
+                    <div class="post-user-info">
+                        <h4 class="post-username" th:text="${post.nickname}">Username</h4>
+                        <p class="post-date" th:text="${post.date}">Feb 2</p>
+                    </div>
+                    <div class="post-tag" th:if="${post.isMine}">You</div>
+                </div>
+
+                <div class="post-achievement">
+                    <div class="achievement-header">
+                        <span class="achievement-label">Achievement Rate</span>
+                        <span class="achievement-percent" th:text="${post.achievementRate} + '%'">0%</span>
+                    </div>
+                    <div class="achievement-bar">
+                        <div class="achievement-bar-fill"
+                             th:style="'width: ' + ${post.achievementRate} + '%'"
+                             th:classappend="${post.achievementRate == 100} ? 'achievement-complete' : ''"></div>
+                    </div>
+                    <p class="achievement-text"
+                       th:text="|${post.completedCount} of ${post.totalCount} goals completed|">0 of 1 goals completed</p>
+                </div>
+
+                <div class="post-goals" th:if="${post.goals}">
+                    <div class="goal-item" th:each="goal : ${post.goals}"
+                         th:classappend="${goal.isDone} ? 'goal-completed' : ''">
+                        <div class="goal-checkbox" th:classappend="${goal.isDone} ? 'checked' : ''">
+                            <span th:if="${goal.isDone}">✓</span>
+                        </div>
+                        <span class="goal-text" th:text="${goal.content}">SQLD 접수</span>
+                    </div>
+                </div>
+
+                <div class="post-actions">
+                    <button type="button" class="action-btn like-btn"
+                            th:data-nickname="${post.nickname}"
+                            th:classappend="${post.isLiked} ? 'liked' : ''">
+                        <span class="heart-icon"></span>
+                        <span class="action-count" th:text="${post.likes}">12</span>
+                    </button>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <!-- Bottom nav placeholder - loaded by feed.js -->
+    <div id="bottomNavPlaceholder"></div>
+</div>
+
+<!-- 좋아요 단 친구 조회 관련 모달 -->
+<div id="likersModal" class="modal-overlay">
+    <div class="modal-sheet">
+        <header class="modal-header">
+            <h3>Liked by</h3>
+            <button class="btn-close-modal" onclick="closeLikersModal()">✕</button>
+        </header>
+        <ul class="modal-friend-list" id="modal-likers-list">
+        </ul>
+    </div>
+</div>
+
+
+<script th:src="@{/js/feed.js}"></script>
+</body>
+</html>

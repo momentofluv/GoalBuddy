@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GoalBuddy – Today</title>
+  <link rel="stylesheet" th:href="@{/css/today.css}" />
+  <link rel="stylesheet" th:href="@{/css/bottom-nav.css}" />
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    var isReadOnly = [[${isReadOnly}]];  // 요청한 날짜가 오늘이 아니면 true
+    var serverDate = [[${selectedDate}]]; // 현재 조회 중인 날짜 (예: "2026-02-15")
+    /*]]>*/
+</script>
+</head>
+<body>
+<div class="app-frame">
+
+  <main class="today-screen">
+    <h1 class="today-title">Today</h1>
+    <!-- Calendar card -->
+    <section class="calendar-card">
+      <div class="calendar-header">
+        <button type="button" class="btn-icon" aria-label="이전 달">‹</button>
+        <h2 class="calendar-title">February 2026</h2>
+        <button type="button" class="btn-icon" aria-label="다음 달">›</button>
+      </div>
+
+      <div class="weekdays">
+        <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+      </div>
+
+      <div class="calendar-grid" id="calendarGrid">
+        <!-- 1-28 filled by JS, day 2 is today (highlighted) -->
+      </div>
+    </section>
+
+    <!-- Date header -->
+    <div class="date-header">
+      <h3 class="actual-date-text">Monday, February 2</h3>
+      <span th:if="${!isReadOnly}" class="date-today">Today !</span>
+    </div>
+
+
+    <!-- Daily Goals -->
+    <section class="goals-card">
+      <h3 class="goals-title">
+        Daily Goals (<span th:text="${doneCount}">0</span>/<span th:text="${totalCount}">0</span>)
+      </h3>
+
+      <!-- 오늘 날짜에 대해서만 목표 등록 가능 -->
+      <div class="goals-input" th:if="${!isReadOnly}">
+        <input type="text" class="goals-input-field" placeholder="오늘의 목표를 추가해 보세요!" id="goalInput" />
+        <button type="button" class="btn-add-goal" aria-label="목표 추가">+</button>
+      </div>
+
+      <div class="goals-list" id="goalsList">
+        <div th:each="goal : ${goals}" class="goal-item">
+          <label class="goal-checkbox-container">
+            <input type="checkbox" th:checked="${goal.isDone}"
+                   th:disabled="${isReadOnly}"
+                   th:onchange="${isReadOnly} ? 'return false;' : |toggleGoal(${goal.id})|" />
+            <span class="checkmark"></span>
+          </label>
+          <span class="goal-content" th:text="${goal.content}"
+                th:classappend="${goal.isDone} ? 'completed' : ''">목표 내용</span>
+          <div class="goal-actions" th:if="${!isReadOnly}">
+            <button type="button"
+                    class="btn-action btn-edit"
+                    th:data-id="${goal.id}"
+                    th:data-content="${goal.content}"
+                    onclick="handleEdit(this)">✎</button>
+
+            <button type="button"
+                    class="btn-action btn-delete"
+                    th:data-id="${goal.id}"
+                    onclick="handleDelete(this)">×</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 등록 완료/실패 알림 토스트 -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Bottom nav placeholder - loaded by today.js -->
+  <div id="bottomNavPlaceholder"></div>
+
+</div>
+<script th:src="@{/js/today.js}"></script>
+</body>
+</html>

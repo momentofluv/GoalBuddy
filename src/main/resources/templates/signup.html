@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+  <title>GoalBuddy – Sign Up</title>
+  <link rel="stylesheet" th:href="@{/css/signup.css}" />
+
+</head>
+<body>
+  <main class="signup-frame">
+    <section class="signup-content">
+      <header class="signup-header">
+        <h1 class="signup-heading">Sign up</h1>
+        <p class="signup-subtitle">Create an account to get started</p>
+      </header>
+
+      <form class="signup-form" id="signupForm" th:action="@{/signup}" th:object="${userSignupDto}" method="post" novalidate>
+
+        <div class="input-group">
+          <label for="nickname" class="input-label">Nickname</label>
+          <div class="input-wrapper">
+            <input
+              type="text" id="nickname" th:field="*{nickname}"
+              th:errorclass="field-error" class="input"
+              placeholder="닉네임을 입력하세요"
+              autocomplete="nickname"/>
+            <div class="field-error" th:errors="*{nickname}"/>  <!-- 에러 발생 시에만 표시되는 영역 -->
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="email" class="input-label">Email Address</label>
+          <div class="input-wrapper">
+            <input
+              type="email" id="email" th:field="*{email}"
+              th:errorclass="field-error" class="input"
+              placeholder="name@email.com"
+              autocomplete="email"/>
+            <div class="field-error" th:errors="*{email}"/>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="password" class="input-label">Password</label>
+          <div class="input-wrapper">
+            <input
+              type="password" id="password" th:field="*{password}"
+              th:errorclass="field-error" class="input"
+              placeholder="영어 대/소문자, 숫자, 특수문자 중 2가지 이상, 8자 이상"
+              autocomplete="new-password"/>
+            <div class="field-error" th:errors="*{password}"/>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="passwordCheck" class="input-label">Password</label>
+          <div class="input-wrapper">
+            <input
+                    type="password" id="passwordCheck" th:field="*{passwordCheck}"
+                    th:errorclass="field-error" class="input"
+                    placeholder="동일한 패스워드를 입력하세요"
+                    autocomplete="new-password"/>
+            <div class="field-error" th:errors="*{passwordCheck}"/>
+            <span id="matchMessage" class="message"></span>
+          </div>
+        </div>
+
+        <div class="checkbox-group">
+          <div class="divider"></div>
+          <label class="checkbox-label">
+            <input
+              type="checkbox"
+              id="privacy"
+              name="privacy"
+              class="checkbox-input"
+              required
+            />
+            <span class="checkbox-custom"></span>
+            <span class="checkbox-text">[필수] 개인정보 수집 이용 동의</span>
+          </label>
+
+          <button type="button" class="info-button" id="openPrivacy" aria-label="개인정보 수집 이용 동의 상세 보기">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 4l4 4-4 4" stroke="#71727a" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </button>
+
+          <div id="privacyPolicy" class="modal">
+            <div class="modal-content">
+              <span class="close-btn">&times;</span>
+              <h2>개인정보 처리방침</h2>
+              <div class="modal-body">
+                <!-- 방침 내용 입력하기 -->
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <button type="submit" class="btn-signup">Sign Up</button>
+      </form>
+
+      <p class="signup-footer">
+        <span class="signup-footer-text">Already have an account? </span>
+        <a href="login.html" class="link-login">Login</a>
+      </p>
+    </section>
+  </main>
+  <script th:src="@{/js/signup.js}"></script>
+</body>
+</html>

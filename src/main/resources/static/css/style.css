@@ -1,0 +1,436 @@
+/* 전체 레이아웃 기본값 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui,
+    sans-serif;
+  background: #0f172a;
+  color: #e5e7eb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* 모바일 앱 컨테이너 (디자인에 맞춰 width 조정) */
+.app {
+  position: relative;
+  width: 375px;
+  max-width: 100%;
+  height: 812px;
+  max-height: 100vh;
+  background: radial-gradient(circle at top, #1f2937 0, #020617 55%);
+  border-radius: 32px;
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(148, 163, 184, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 헤더 영역 */
+.app-header {
+  padding: 16px 18px 8px;
+}
+
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: #9ca3af;
+  margin-bottom: 8px;
+}
+
+.status-icons {
+  display: flex;
+  gap: 4px;
+}
+
+.status-icons .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #4b5563;
+}
+
+.top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.icon-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(15, 23, 42, 0.8);
+  color: #e5e7eb;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.icon-btn:hover {
+  background: rgba(30, 64, 175, 0.9);
+}
+
+.top-nav-center {
+  text-align: center;
+  flex: 1;
+}
+
+.app-title {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #f9fafb;
+}
+
+.app-subtitle {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+.profile-btn .avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #6366f1, #ec4899);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+}
+
+/* 메인 컨텐츠 */
+.app-main {
+  flex: 1;
+  padding: 4px 18px 12px;
+  overflow-y: auto;
+}
+
+/* 요약 카드 */
+.summary {
+  margin-top: 8px;
+}
+
+.summary-card {
+  background: radial-gradient(circle at top left, #4f46e5, #1d4ed8 45%, #020617);
+  border-radius: 20px;
+  padding: 16px 16px 14px;
+  color: #e5e7eb;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.8);
+}
+
+.summary-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.summary-label {
+  font-size: 12px;
+  color: #cbd5f5;
+}
+
+.summary-percent {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.summary-progress {
+  margin-top: 8px;
+}
+
+.summary-progress-bar {
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.6);
+  overflow: hidden;
+}
+
+.summary-progress-fill {
+  width: 72%;
+  height: 100%;
+  background: linear-gradient(90deg, #22c55e, #eab308);
+  border-radius: inherit;
+}
+
+.summary-progress-meta {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #d1d5db;
+}
+
+/* KPI 카드 */
+.kpi-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.kpi-card {
+  flex: 1;
+  background: rgba(15, 23, 42, 0.9);
+  border-radius: 16px;
+  padding: 10px 12px;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+}
+
+.kpi-accent {
+  background: radial-gradient(circle at top, #22c55e33, #020617);
+  border-color: rgba(52, 211, 153, 0.6);
+}
+
+.kpi-label {
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+.kpi-value {
+  display: block;
+  margin-top: 4px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.kpi-sub {
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+/* 섹션 공통 */
+.section {
+  margin-top: 18px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #e5e7eb;
+}
+
+.text-button {
+  background: none;
+  border: none;
+  font-size: 12px;
+  color: #60a5fa;
+  cursor: pointer;
+}
+
+/* 목표 리스트 */
+.goal-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.goal-item {
+  background: rgba(15, 23, 42, 0.9);
+  border-radius: 14px;
+  padding: 10px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid rgba(31, 41, 55, 0.9);
+}
+
+.goal-item.completed {
+  border-color: rgba(34, 197, 94, 0.7);
+  background: radial-gradient(circle at left, #22c55e22, #020617);
+}
+
+.goal-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkbox {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  border: 2px solid #4b5563;
+  display: inline-block;
+}
+
+.checkbox.checked {
+  border-color: #22c55e;
+  background: radial-gradient(circle at center, #22c55e, #15803d);
+  position: relative;
+}
+
+.checkbox.checked::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 6px;
+  height: 10px;
+  border-right: 2px solid #f9fafb;
+  border-bottom: 2px solid #f9fafb;
+  transform: rotate(40deg);
+}
+
+.goal-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.goal-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: #e5e7eb;
+}
+
+.goal-sub {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
+.goal-tag {
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  color: #e5e7eb;
+  background: rgba(55, 65, 81, 0.8);
+}
+
+.tag-green {
+  background: rgba(22, 163, 74, 0.9);
+}
+
+.tag-blue {
+  background: rgba(59, 130, 246, 0.95);
+}
+
+/* 추천 카드 */
+.recommend-card {
+  margin-top: 4px;
+  padding: 14px 14px 12px;
+  border-radius: 16px;
+  background: radial-gradient(circle at top right, #6366f1, #0f172a 55%);
+  border: 1px solid rgba(129, 140, 248, 0.7);
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.recommend-label {
+  display: inline-block;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.8);
+  color: #a5b4fc;
+  margin-bottom: 6px;
+}
+
+.recommend-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #f9fafb;
+}
+
+.recommend-desc {
+  margin-top: 4px;
+  font-size: 11px;
+  color: #e5e7ebcc;
+}
+
+.primary-button {
+  border: none;
+  cursor: pointer;
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: #0b1120;
+  background: linear-gradient(135deg, #facc15, #22c55e);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.8);
+}
+
+.primary-button.small {
+  padding: 6px 12px;
+}
+
+/* 하단 네비게이션 */
+.bottom-nav {
+  height: 64px;
+  padding: 6px 24px 12px;
+  background: rgba(15, 23, 42, 0.98);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-top: 1px solid rgba(30, 64, 175, 0.6);
+  position: relative;
+  z-index: 1;
+}
+
+.nav-item {
+  flex: 1;
+  background: none;
+  border: none;
+  color: #9ca3af;
+  font-size: 11px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+}
+
+.nav-icon {
+  font-size: 16px;
+}
+
+.nav-item.active {
+  color: #fbbf24;
+}
+
+/* 플로팅 액션 버튼 */
+.fab {
+  position: absolute;
+  bottom: 56px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #6366f1, #ec4899);
+  color: #f9fafb;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.9);
+  cursor: pointer;
+}

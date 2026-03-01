@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>GoalBuddy - Me</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" th:href="@{/css/me.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bottom-nav.css}" />
+
+    <!-- 폰트 예시 (선택) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+          rel="stylesheet"/>
+
+</head>
+
+<body>
+
+<div class="app-frame">
+    <main class="me-screen">
+        <h1 class="me-title">MyPage</h1>
+
+        <!-- 상단 프로필 영역 -->
+        <header class="me-header">
+            <div class="me-header__profile">
+                <div class="me-header__avatar">
+                    <img th:if="${user.profileImageUrl != null}"
+                         th:src="${user.profileImageUrl}"
+                         alt="Profile" class="avatar-img"/>
+                    <span th:unless="${user.profileImageUrl != null}"
+                          class="me-header__avatar-placeholder"></span>
+                </div>
+                <div class="me-header__info">
+                    <h1 class="me-header__name"
+                        th:text="${user.nickname}">닉네임</h1>
+                    <p class="me-header__handle"
+                       th:text="${user.email}">이메일</p>
+                </div>
+            </div>
+
+            <!-- Achievement / Streak 카드 -->
+            <section class="stats">
+                <article class="stats-card">
+                    <div class="stats-card__label">
+                        <span class="stats-card__icon stats-card__icon--achievement"></span>
+                        <span>Achievement</span>
+                    </div>
+                    <div class="stats-card__value">
+                        <span th:text="${myFeed != null ? myFeed.achievementRate : 0}">0</span><span>%</span>
+                    </div>
+                    <p class="stats-card__sub"
+                       th:text="${myFeed != null ? (myFeed.completedCount + '/' + myFeed.totalCount + ' goals') : '0/0 goals'}">
+                        0/0 goals
+                    </p>
+                </article>
+
+                <article class="stats-card">
+                    <div class="stats-card__label">
+                        <span class="stats-card__icon stats-card__icon--streak"></span>
+                        <span>Streak</span>
+                    </div>
+                    <div class="stats-card__value">
+                        <span>0</span>
+                    </div>
+                    <p class="stats-card__sub" th:text="|${user.streak}일 연속 달성!|">
+                        0 days in a row
+                    </p>
+                </article>
+            </section>
+        </header>
+        <!-- Friend Management (접었다/펼쳤다) -->
+        <section id="friendManagement"
+                 class="card card--clickable friend-mgmt"
+                 data-fm-toggle>
+            <div class="card__header friend-mgmt__header">
+                <div class="card__header-left">
+                    <span class="card__icon friend-mgmt__icon"></span>
+                    <span class="card__title">Friend Management</span>
+                </div>
+                <button type="button"
+                        class="icon-button friend-mgmt__chevron"
+                        aria-label="Toggle Friend Management">
+                    <span class="chevron chevron--down"></span>
+                </button>
+            </div>
+
+            <!-- 펼쳐졌을 때만 보이는 영역 -->
+            <div class="friend-mgmt__content" data-fm-content>
+                <ul class="friend-list" th:if="${not #lists.isEmpty(friends)}">
+                    <li class="friend-list__item" th:each="friend : ${friends}">
+                        <div class="friend-list__info">
+                            <div class="friend-list__avatar">
+                                <img th:if="${friend.profileImageUrl != null}"
+                                     th:src="${friend.profileImageUrl}"
+                                     alt="Profile" class="avatar-img"/>
+                                <span th:unless="${friend.profileImageUrl != null}"
+                                      class="me-header__avatar-placeholder"></span>
+                            </div>
+                            <div class="friend-list__texts">
+                                <span class="friend-list__name"
+                                      th:text="${friend.nickname}">Emma Wilson</span>
+                                <span class="friend-list__streak"
+                                      th:text="|${friend.streak != null ? friend.streak: 0} day streak|">
+                                    7 day streak
+                                </span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="friend-list" th:if="${#lists.isEmpty(friends)}">
+                    <p>아직 추가된 친구가 없습니다.</p>
+                    <p>함께 목표를 나눌 친구를 찾아보세요!</p>
+                </div>
+
+                <button type="button"
+                        class="btn btn--outline btn--full-width friend-mgmt__add"
+                        data-open-add-friend>
+                    Add Friend
+                </button>
+            </div>
+        </section>
+
+        <!-- Settings -->
+        <section class="card card--row">
+            <div class="card__header">
+                <div class="card__header-left">
+                    <span class="card__icon card__icon--settings"></span>
+                    <span class="card__title">Settings</span>
+                </div>
+                <span class="card__chevron">&gt;</span>
+            </div>
+        </section>
+
+        <!-- Log Out 버튼 -->
+        <section class="logout">
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="btn btn--primary btn--full-width">
+                    Log Out
+                </button>
+            </form>
+        </section>
+    </main>
+
+    <!-- 하단 네비게이션 탭 -->
+    <div id="bottomNavPlaceholder"></div>
+
+</div>
+
+<!-- Add Friend 모달 -->
+<<div id="addFriendModal" class="modal" aria-hidden="true">
+    <div class="modal__backdrop" onclick="closeModal()"></div>
+
+    <section class="modal__panel">
+        <header class="modal__header">
+            <h2 class="modal__title">Find New Friends</h2>
+            <button type="button" class="modal-friend-close-btn" onclick="closeModal()">✕</button>
+        </header>
+
+        <div class="modal__search">
+            <input type="text"
+                   id="friend-search-input"
+                   class="modal__search-input"
+                   placeholder="검색할 닉네임을 입력하세요"
+                   onkeyup="if(window.event.keyCode==13){searchUsers()}"/>
+        </div>
+
+        <ul class="modal-friend-list" id="modal-friends-list">
+            <li class="modal-friend-list__item" th:each="f : ${suggestedFriends}">
+                <div class="modal-friend-list__info">
+                    <div class="modal-friend-list__avatar">
+                        <img th:if="${f.profileImageUrl != null}" th:src="${f.profileImageUrl}" class="avatar-img"/>
+                        <span th:unless="${f.profileImageUrl != null}"
+                              class="me-header__avatar-placeholder"
+                              th:text="${#strings.substring(f.nickname, 0, 1)}">U</span>
+                    </div>
+                    <div class="modal-friend-list__texts">
+                        <span class="modal-friend-list__name" th:text="${f.nickname}">이름</span>
+                        <span class="modal-friend-list__username" th:text="${f.email}">이메일</span>
+                    </div>
+                </div>
+                <button type="button" class="icon-button modal-friend-list__add"
+                        th:onclick="|addFriend('${f.nickname}')|"> + </button>
+            </li>
+        </ul>
+    </section>
+</div>
+
+<script th:src="@{/js/me.js}"></script>
+</body>
+</html>

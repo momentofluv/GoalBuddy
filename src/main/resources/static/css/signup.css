@@ -1,0 +1,385 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Arimo', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #ffffff;
+  color: #1f2024;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+/* Frame: 392×742, white */
+.signup-frame {
+  width: 100%;
+  max-width: 392px;
+  min-height: 742px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+.signup-content {
+  flex: 1;
+  padding: 24px;
+  width: 100%;
+}
+
+/* Header */
+.signup-header {
+  margin-bottom: 40px;
+}
+
+/* Heading 1: Arimo Bold 16px, #1f2024, letter-spacing 0.08px, line-height 24px */
+.signup-heading {
+  font-family: 'Arimo', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.08px;
+  color: #1f2024;
+  margin-bottom: 8px;
+}
+
+/* Subtitle: Arimo Regular 12px, #71727a, letter-spacing 0.12px, line-height 16px */
+.signup-subtitle {
+  font-family: 'Arimo', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.12px;
+  color: #71727a;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.input-group {
+  width: 100%;
+}
+
+/* Label: Arimo Bold 12px, #2f3036, line-height 16px */
+.input-label {
+  display: block;
+  font-family: 'Arimo', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  color: #2f3036;
+  margin-bottom: 8px;
+}
+
+.field-error {
+  display: block;
+  font-family: 'Arimo', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  color: #F97272;
+  margin-top: 8px;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+/* Input: 48px height, 14px radius, border #c5c6cc */
+.input {
+  width: 100%;
+  height: 48px;
+  padding: 12px 16px;
+  font-family: 'Arimo', sans-serif;
+  font-size: 14px;
+  line-height: 16px;
+  color: #0a0a0a;
+  background: #ffffff;
+  border: 1px solid #c5c6cc;
+  border-radius: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input::placeholder {
+  color: #0a0a0a;
+  opacity: 0.5;
+}
+
+.input:hover {
+  border-color: #a0a2a8;
+}
+
+.input:focus {
+  border-color: #f97272;
+}
+
+/* Checkbox group */
+.checkbox-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.divider {
+  position: absolute;
+  top: -8px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #eaf2ff;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  flex: 1;
+}
+
+.checkbox-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.checkbox-custom {
+  width: 20px;
+  height: 20px;
+  border: 1.5px solid #c5c6cc;
+  border-radius: 4px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.checkbox-input:checked + .checkbox-custom {
+  background: #f97272;
+  border-color: #f97272;
+}
+
+.checkbox-input:checked + .checkbox-custom::after {
+  content: '';
+  width: 6px;
+  height: 10px;
+  border: solid #ffffff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  margin-top: -2px;
+}
+
+.checkbox-input:focus + .checkbox-custom {
+  outline: 2px solid #f97272;
+  outline-offset: 2px;
+}
+
+/* Checkbox text: Arimo Bold 14px, #f97272, line-height 20px */
+.checkbox-text {
+  font-family: 'Arimo', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+  color: #333333;
+  flex: 1;
+}
+
+.info-button {
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0;
+  color: #71727a;
+  transition: color 0.2s;
+}
+
+.info-button:hover {
+  color: #f97272;
+}
+
+/* Sign Up button: #f97272, 48px height, 14px radius, text white bold 12px */
+.btn-signup {
+  width: 100%;
+  height: 48px;
+  font-family: 'Arimo', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+  color: #ffffff;
+  background: #f97272;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.05s;
+  margin-top: 8px;
+}
+
+.btn-signup:hover {
+  background: #e65c5c;
+}
+
+.btn-signup:active {
+  transform: scale(0.98);
+}
+
+.btn-signup:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Footer: Already have an account? #71727a 12px, Login #f97272 bold 16px */
+.signup-footer {
+  margin-top: 24px;
+  text-align: center;
+  font-family: 'Arimo', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #71727a;
+}
+
+.signup-footer-text {
+  color: #71727a;
+}
+
+.link-login {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  color: #f97272;
+  text-decoration: none;
+  margin-left: 4px;
+}
+
+.link-login:hover {
+  text-decoration: underline;
+}
+
+/* 개인정보처리방침 팝업 배경 */
+.modal {
+  display: none; /* 기본적으로 숨김 */
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 배경 어둡게 */
+}
+
+/* 팝업 박스 */
+.modal-content {
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 24px;
+  border-radius: 12px;
+  width: 80%;
+  max-width: 500px;
+  min-height: 700px; /* ⭐ 내용이 없어도 유지될 최소 높이 */
+  max-height: 70vh;  /* ⭐ 화면 높이의 70%를 넘지 않게 설정 (반응형) */
+  position: relative;
+  display: flex;         /* 1. 내부 요소들을 Flex 구조로 만듭니다. */
+  flex-direction: column;
+}
+
+/* h2와 본문 간의 간격 줄이기 위함 */
+.modal-content h2 {
+    margin-top: 0 !important;
+    margin-bottom: 5px !important; /* 제목과 내용 사이의 간격만 아주 살짝 줍니다 */
+}
+
+.modal-body {
+  flex: 1;           /* 남은 공간을 모두 차지 */
+  overflow-y: auto;  /* ⭐ 내용이 길어지면 세로 스크롤 생성 */
+  padding-right: 8px; /* 스크롤바와 내용 간격 */
+
+  white-space: pre-wrap;
+  word-break: break-all; /* 영문 긴 단어도 잘리지 않게 방지 */
+  line-height: 1.6;      /* 가독성을 위해 줄 간격 확보 */
+
+  /* 제목과 본문과의 간격 줄이기 위함 */
+  margin-top: 0 !important;
+  padding-top: 0;
+}
+
+/* (선택) 스크롤바 디자인을 깔끔하게 */
+.modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+.modal-body::-webkit-scrollbar-thumb {
+  background-color: #e0e0e0;
+  border-radius: 10px;
+}
+
+/* 닫기 버튼 */
+.close-btn {
+  position: absolute;
+  right: 16px; top: 12px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/*
+.btn-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+*/
+
+.toast {
+  min-width: 300px;
+  max-width: 450px;
+  background-color: #F97272;
+  color: #fff;
+  padding: 16px 24px;
+  border-radius: 14px; /* 기존 디자인과 통일 */
+  border: 1px solid #ffeaea; /* 연분홍 보더 */
+  box-shadow: 0 8px 16px rgba(249, 114, 114, 0.1); /* 코랄 핑크 그림자 */
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: slideUp 0.3s ease-out, fadeOut 0.3s forwards 2.7s;
+}
+
+/* 에러 스타일 (선택사항) */
+.toast.error {
+  border-left: 5px solid #f97272;
+}
+
+.message {
+  font-size: 12px;
+  margin-top: 4px;
+  font-weight: 700;
+}
+
+#matchMessage.error {
+  color: #f97272;
+}
+
+#matchMessage.success {
+  color: #4CAF50;
+}

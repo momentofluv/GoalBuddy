@@ -1,0 +1,47 @@
+.bottom-nav {
+/* --- 브라우저 최하단 고정 로직 --- */
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%); /* 화면 중앙 정렬 */
+
+  /* --- 레이아웃 및 너비 (본문 max-width와 일치) --- */
+  width: 100%;
+  max-width: 448px;
+  z-index: 9999; /* 다른 요소 위에 표시 */
+
+  height: 80px;
+  background: #f8f9fa;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 24px 24px;
+  flex-shrink: 0;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #71727a;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  transition: color 0.2s;
+}
+
+.nav-item:hover {
+  color: #f97272;
+}
+
+.nav-item.active {
+  color: #f97272 !important;
+}
+
+.nav-icon {
+  font-size: 20px;
+  line-height: 1;
+}

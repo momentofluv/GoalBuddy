@@ -1,0 +1,342 @@
+/* GoalBuddy Today - from Figma Main - Today (1:126) */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f8f9fa;
+  color: #0a0a0a;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.app-frame {
+  width: 100%;
+  max-width: 448px;
+  min-height: 798px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Today screen */
+.today-screen {
+  flex: 1;
+  padding: 24px 24px 104px; /* 하단 패딩을 네비바 높이(80px)보다 넉넉히 설정 */
+  overflow-y: auto;
+  background: #f8f9fa;
+}
+
+.today-title {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+  color: #0a0a0a;
+  margin-bottom: 16px;
+}
+
+/* Calendar card - 16px radius, border #eaf2ff */
+.calendar-card {
+  background: #ffffff;
+  border: 1px solid #eaf2ff;
+  border-radius: 16px;
+  padding: 16px 24px 20px;
+  margin-bottom: 24px;
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  color: #0a0a0a;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+.btn-icon:hover {
+  background: #eaf2ff;
+}
+
+.calendar-title {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  color: #0a0a0a;
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0;
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #71727a;
+  text-align: center;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.calendar-day {
+  aspect-ratio: 1;
+  max-height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #1f2024;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.calendar-day:hover {
+  background: #eaf2ff;
+}
+
+.calendar-day.today {
+  background: #f97272;
+  color: #ffffff;
+}
+
+.calendar-day.empty {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Date header */
+.date-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 24px;
+  padding: 0px 16px;
+}
+
+.actual-date-text {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  color: #0a0a0a;
+}
+
+/* 오늘 (분홍색 스티커) */
+.calendar-day.today {
+    background-color: #F97272 !important;
+    color: white !important;
+}
+
+/* 현재 클릭해서 보고 있는 날짜 (테두리 강조) */
+.calendar-day.selected {
+    border: 2px solid #F97272;
+    box-sizing: border-box;
+}
+
+.date-today {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #f97272;
+}
+
+/* Goals card - #eaf2ff background, 16px radius */
+.goals-card {
+  background-color: rgba(249, 114, 114, 0.1);
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.goals-title {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+.goals-input {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+}
+
+.goals-input-field {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  line-height: 16px;
+  color: #0a0a0a;
+  outline: none;
+}
+
+.goals-input-field::placeholder {
+  color: #0a0a0a;
+  opacity: 0.5;
+}
+
+.btn-add-goal {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: #f97272;
+  color: #ffffff;
+  font-size: 20px;
+  line-height: 1;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.btn-add-goal:hover {
+  background: #e65c5c;
+}
+
+/*목표 리스트 출력*/
+.goal-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+input[type="checkbox"] {
+    appearance: none;
+    margin: 0;
+    cursor: pointer;
+    border: 1.5px solid #ddd;
+    border-radius: 4px;    /* 살짝 둥근 사각형 느낌 */
+}
+
+input[type="checkbox"]:hover {
+    border-color: #F97272;
+    background-color: rgba(249, 114, 114, 0.1); /* 연하게 배경색 추가 */
+}
+
+input[type="checkbox"]:checked {
+    background-color: #F97272; /* 배경색을 코랄색으로 고정 */
+    border-color: #F97272;
+
+    /* 흰색 체크 표시 아이콘 삽입 */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E");
+    background-size: 14px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.goal-content {
+    margin-left: 12px;
+    font-size: 14px;
+    color: #333;
+}
+
+.goal-content.completed {
+    text-decoration: line-through;
+    color: #bbb;
+}
+
+/* 체크박스 커스텀 */
+.goal-checkbox-container input {
+    accent-color: #F97272;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    line-height: 0;
+    display: flex;
+}
+
+/* 수정, 삭제 관련 */
+.goal-actions {
+    display: flex;
+    gap: 8px;
+    margin-left: auto; /* 버튼들을 오른쪽 끝으로 밀기 */
+}
+
+.btn-action {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: all 0.2s;
+}
+
+.btn-action:hover {
+    opacity: 1;
+    color: #F97272;
+}
+
+.btn-delete {
+    font-size: 20px;
+}
+
+.btn-delete:hover {
+    color: #ff4d4f;       /* 삭제 버튼은 조금 더 경고의 느낌으로 */
+}
+
+.toast-container {
+    position: fixed;
+    bottom: 400px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast {
+    background-color: #F97272; /* 메인 코랄 컬러 */
+    color: white;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-size: 14px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: fadeInOut 2.5s ease-in-out forwards;
+    white-space: nowrap;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(20px); }
+    15% { opacity: 1; transform: translateY(0); }
+    85% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-20px); }
+}

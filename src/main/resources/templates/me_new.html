@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+  <title>GoalBuddy - Me</title>
+  <link rel="stylesheet" th:href="@{/css/me_new.css}"/>
+  <link rel="stylesheet" th:href="@{/css/bottom-nav.css}"/>
+</head>
+<body>
+<div class="app-frame">
+  <div class="profile-bg-deco"></div>
+
+  <main class="me-screen">
+    <header class="me-header">
+      <div class="me-avatar">
+        <img th:if="${user.profileImageUrl != null}" th:src="${user.profileImageUrl}" id="profile-img-preview" alt="Profile"/>
+        <div th:unless="${user.profileImageUrl != null}" class="avatar-placeholder" id="profile-placeholder"></div>
+
+        <input type="file" id="profile-file-input" accept="image/*" style="display: none;" />
+
+        <button type="button" class="camera-icon" id="camera-trigger" aria-label="새 프로필 사진을 선택해 보세요!">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M15 4H9L7 7H4C2.89543 7 2 7.89543 2 9V18C2 19.1046 2.89543 20 4 20H20C21.1046 20 22 19.1046 22 18V9C22 7.89543 21.1046 7 20 7H17L15 4Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <h2 class="me-name" th:text="${user.nickname}">Lucas Scott</h2>
+      <p class="me-handle" th:text="${user.email}">@lucasscott3</p>
+    </header>
+
+    <section class="stats-row">
+      <div class="stats-card">
+        <div class="stats-card__header">
+          <span class="icon-achievement">🏆</span>
+          <span class="label">Achievement</span>
+        </div>
+        <div class="stats-value"><span th:text="${myFeed != null ? myFeed.achievementRate : 0}">0</span>%</div>
+        <div class="stats-sub" th:text="${myFeed != null ? myFeed.completedCount + '/' + myFeed.totalCount + ' goals' : '0/0 goals'}">0/2 goals</div>
+      </div>
+      <div class="stats-card">
+        <div class="stats-card__header">
+          <span class="icon-streak">🔥</span>
+          <span class="label">Streak</span>
+        </div>
+        <div class="stats-value" th:text="${user.streak}">0</div>
+        <div class="stats-sub">days in a row</div>
+      </div>
+    </section>
+
+    <section class="menu-list">
+      <div class="menu-item menu-item--collapsible" id="friendMgmt" data-fm-toggle>
+        <div class="menu-item__header">
+          <div class="left">
+            <span class="menu-icon">👤</span>
+            <span class="menu-text">Friend Management</span>
+          </div>
+          <span class="chevron"></span>
+        </div>
+        <div class="menu-item__content">
+          <ul class="friend-mini-list" th:if="${not #lists.isEmpty(friends)}">
+            <li class="friend-mini-item" th:each="friend : ${friends}" th:id="'friend-' + ${friend.id}">
+              <div class="f-info">
+                <span class="f-name" th:text="${friend.nickname}">Emma Wilson</span>
+                <span class="f-streak" th:text="|${friend.streak} day streak|">7 day streak</span>
+              </div>
+              <button class="btn-delete-friend"
+                      th:onclick="'deleteFriend(' + ${friend.id} + ')'"
+                      aria-label="친구 삭제">×</button>
+            </li>
+          </ul>
+
+          <div class="friend-mini-list--empty" th:if="${#lists.isEmpty(friends)}">
+            <p>아직 추가된 친구가 없습니다.</p>
+            <p>함께 목표를 나눌 친구를 찾아보세요!</p>
+          </div>
+          <button class="btn-add-friend-outline" data-open-add-friend>Add Friend</button>
+        </div>
+      </div>
+
+      <div class="menu-item menu-item--collapsible" id="settingsMgmt" data-settings-toggle>
+        <div class="menu-item__header">
+          <div class="left">
+            <span class="menu-icon">⚙️</span>
+            <span class="menu-text">Settings</span>
+          </div>
+          <span class="chevron"></span>
+        </div>
+
+        <div class="menu-item__content">
+          <ul class="settings-list">
+            <li class="settings-item">
+              <div class="s-info">
+                <span class="s-label">Edit Nickname</span>
+              </div>
+              <button class="btn-edit" data-open-nickname-modal>✎</button>
+            </li>
+
+            <li class="settings-item">
+              <div class="s-info">
+                <span class="s-label">Edit Password</span>
+              </div>
+              <button class="btn-edit" id="btn-reset-pw">✎</button> <!-- 자바스크립트로 호출-->
+            </li>
+
+            <li class="settings-item">
+              <div class="s-info">
+                <span class="s-label">Withdraw Account</span>
+              </div>
+              <button class="btn-edit" onclick="openWithdrawModal()">✕</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <form th:action="@{/logout}" method="post" class="logout-area">
+      <button type="submit" class="btn-logout-coral">Logout</button>
+    </form>
+  </main>
+
+  <div id="bottomNavPlaceholder"></div>
+</div>
+
+<div id="addFriendModal" class="modal-overlay">
+  <div class="modal-sheet">
+    <header class="modal-header">
+      <h3>Find New Friends</h3>
+      <button class="btn-close-modal" onclick="closeModal()">✕</button>
+    </header>
+    <div class="modal-search-container">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="friend-search-input" placeholder="Search" />
+    </div>
+    <ul class="modal-friend-list" id="modal-friends-list">
+    </ul>
+  </div>
+</div>
+
+<div id="updateNicknameModal" class="modal-overlay">
+  <div class="modal-sheet">
+    <header class="modal-header">
+      <h3>Edit My Nickname</h3>
+      <button class="btn-close-modal" onclick="closeNicknameModal()">✕</button>
+    </header>
+    <div class="modal-search-container">
+      <span class="search-icon">✎</span>
+      <input type="text" id="new-nickname-input" placeholder="New Nickname" />
+    </div>
+    <button class="btn-add-friend-outline" onclick="submitNicknameChange()">닉네임 변경</button>
+  </div>
+</div>
+
+<div id="confirmResetModal" class="modal-overlay">
+  <div class="modal-sheet">
+    <header class="modal-header">
+      <h3>비밀번호 재설정</h3>
+      <button class="btn-close-modal" onclick="closeResetModal()">✕</button>
+    </header>
+
+    <div style="text-align: center; margin: 20px 0;">
+      <p style="color: #666; line-height: 1.5;">
+        <strong th:text="${user.email}"></strong>로<br>
+        비밀번호 재설정 링크가 발송됩니다.
+      </p>
+    </div>
+
+    <button class="btn-add-friend-outline" id="confirm-reset-btn" style="background-color: #F97272; color: white; border: none;">
+      링크 발송하기
+    </button>
+  </div>
+</div>
+
+<div id="withdrawModal" class="modal-overlay">
+  <div class="modal-sheet">
+    <header class="modal-header">
+      <h3>회원 탈퇴</h3>
+      <button class="btn-close-modal" onclick="closeWithdrawModal()">✕</button>
+    </header>
+
+    <div style="text-align: center; margin: 20px 0;">
+      <p style="color: #666; line-height: 1.5;">정말로 탈퇴하시겠습니까?</p>
+      <p style="color: #666; line-height: 1.5;">탈퇴 시 모든 데이터는 삭제되며 복구할 수 없습니다.</p>
+    </div>
+
+    <form th:action="@{/withdraw}" method="post">
+      <button type="submit" class="btn-add-friend-outline">탈퇴하기</button>
+    </form>
+      <button class="btn-add-friend-outline" onclick="closeWithdrawModal()">취소하기</button>
+  </div>
+</div>
+
+<script th:src="@{/js/me_new.js}"></script>
+<script th:src="@{/js/auth.js}"></script>
+</body>
+</html>

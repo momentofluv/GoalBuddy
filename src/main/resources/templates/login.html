@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+  <title>GoalBuddy – Login</title>
+  <link rel="stylesheet" th:href="@{/css/login.css}" />
+</head>
+<body>
+  <main class="login-frame">
+    <section class="login-top">
+      <div class="login-logo">
+        <img th:src="@{/image/logo.png}" alt="GoalBuddy Logo" width="350" height="350" />
+      </div>
+    </section>
+
+    <section class="login-content">
+      <h1 class="login-heading">Welcome!</h1>
+
+      <form class="login-form" id="loginForm"
+            th:action="@{/login}" th:object="${userLoginDto}" method="post" novalidate>
+
+        <div class="input-wrap">
+          <label class="visually-hidden" for="email">Email Address</label>
+          <input type="email" id="email" th:field="*{email}"
+                 th:errorclass="field-error" class="input"
+                 placeholder="Email Address"
+                 autocomplete="email"/>
+          <div class="field-error" th:errors="*{email}"/>
+        </div>
+
+        <div class="input-wrap">
+          <label class="visually-hidden" for="password">Password</label>
+          <input
+            type="password" id="password" th:field="*{password}"
+            th:errorclass="field-error" class="input"
+            placeholder="Password"
+            autocomplete="current-password"/>
+          <div class="field-error" th:errors="*{password}"/>
+        </div>
+
+        <!-- 자바스크립트로 호출-->
+        <a href="#" class="link-forgot" onclick="openForgotModal()">Forgot password?</a>
+
+        <button type="submit" class="btn-login">Login</button>
+      </form>
+
+      <p class="login-footer">
+        <span class="login-footer-text">Not a member?</span>
+        <a th:href="@{/signup}" class="link-register">Register now</a>
+      </p>
+    </section>
+
+  </main>
+
+  <!-- 로그인 실패 시 메시지 toast 출력 위한 데이터 전송 -->
+  <div id="error-data"
+       th:if="${errorMessage != null}"
+       th:data-message="${errorMessage}"
+       style="display:none;">
+  </div>
+
+  <!-- forgot password에서 이메일 입력받는 모달 -->
+  <div id="forgotPasswordModal" class="modal-overlay">
+    <div class="modal-content">
+      <h2 class="modal-title">비밀번호 찾기</h2>
+      <p class="modal-desc">가입하신 이메일을 입력하면<br>재설정 링크를 보내드립니다.</p>
+
+      <div class="input-wrap">
+        <input type="email" id="forgotEmail" class="input" placeholder="name@email.com">
+      </div>
+
+      <div class="modal-buttons">
+        <button type="button" class="btn-secondary" onclick="closeForgotModal()">취소</button>
+        <button type="button" class="btn-primary" id="sendEmailBtn">링크 발송</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- toast 출력 -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="text/javascript" th:src="@{/js/login.js}"></script>
+  <script type="text/javascript" th:src="@{/js/auth.js}"></script>
+</body>
+</html>
