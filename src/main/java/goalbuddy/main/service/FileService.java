@@ -12,7 +12,8 @@ import java.util.UUID;
 @Service
 public class FileService {
 
-    private final String EXTERNAL_PATH = "D:/GoalBuddy_profile/";
+    @Value("${file.upload.location}")
+    private String uploadPath;
 
     public String uploadProfileImage(MultipartFile file) {
         if (file == null || file.isEmpty()) return null;
@@ -35,7 +36,7 @@ public class FileService {
         try {
             // 파일명 난독화 (UUID+확장자)
             String savedFileName = UUID.randomUUID().toString() + "." + extension;
-            File targetFile = new File(EXTERNAL_PATH + savedFileName);
+            File targetFile = new File(uploadPath + savedFileName);
 
             file.transferTo(targetFile);
 
