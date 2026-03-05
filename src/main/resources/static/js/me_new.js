@@ -186,7 +186,7 @@
         })
         .then(async res => {
           if (res.ok) {
-            showToast("닉네임이 변경되었습니다! ✨");
+            showToast("닉네임이 변경되었습니다!");
             setTimeout(() => location.reload(), 1000);
           } else {
             const msg = await res.text();
@@ -290,7 +290,7 @@
         'Content-Type': 'application/json',
         [header]: token
       },
-      body: JSON.stringify(nickname) // 객체 형태로 전달하는 것이 일반적입니다.
+      body: JSON.stringify(nickname) // 객체 형태로 전달하는 것이 일반적이라고 함 
     })
       .then(async res => {
         if (res.ok) {
@@ -328,8 +328,8 @@
 
       fetch('/settings/update-profile-image', {
           method: 'POST',
-          headers: { [header]: token }, // Content-Type은 적지 마세요!
-          body: formData // 트럭(formData)에 파일을 실어 보냅니다.
+          headers: { [header]: token },
+          body: formData 
       })
       .then(res => {
           if(res.ok) showToast("사진 업데이트 완료!");
